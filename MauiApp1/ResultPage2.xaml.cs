@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace MauiApp1;
 
-public partial class ResultPage : ContentPage
+public partial class ResultPage2 : ContentPage
 {
     double sliderValue = 0.5;
     List<Problems> problemList = new List<Problems>();
@@ -13,7 +13,7 @@ public partial class ResultPage : ContentPage
     static int listRow = 0;
     Problems lastProblems = new Problems();
     string lastItemTappedUrl = "";
-    public ResultPage(string finedWord)
+    public ResultPage2(string finedWord)
     {
         InitializeComponent();
         seartchWord.Text = finedWord;
@@ -41,8 +41,8 @@ public partial class ResultPage : ContentPage
         var sameWord = new List<string>();
         if (seartchWord.Text != "" && seartchWord.Text != null && allProblems.Count > 0)
         {
-            var problems = new List<string>();
-            foreach (var tmp in allProblems) problems.Add(tmp.SearchWord);
+            var problems = new List<testClass>();
+            //foreach (var tmp in allProblems) problems.Add(tmp.SearchWord);
             sameWord = seartchWord.Text.SortByDistance(problems).ToList();
             sameWord = sameWord.Distinct().ToList();
             //Debug.WriteLine("5");

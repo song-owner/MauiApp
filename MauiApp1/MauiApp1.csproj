@@ -50,4 +50,12 @@
 	  <PackageReference Include="FirebaseDatabase.Platform.net" Version="3.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="ResultPage2 %28コピー%29.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Condition=" '$(EnableDefaultXamlItems)' == 'true' " Update="ResultPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	</ItemGroup>
 </Project>
