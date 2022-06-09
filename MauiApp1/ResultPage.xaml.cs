@@ -127,7 +127,7 @@ namespace MauiApp1
             }
             seartchWord.Text = now.SearchWord;
             if (lastProblems.SearchWord != now.SearchWord/* || lastItemTappedUrl != lastProblems.Url*/)
-                await solvedResult();
+                await solvedResult(false);
             webView.Source = now.Url;
             lastProblems.SearchWord = now.SearchWord;
             lastItemTappedUrl = now.Url;
@@ -143,17 +143,18 @@ namespace MauiApp1
         {
             var url = "https://www.google.com/search?q=" + seartchWord.Text;
             if (seartchWord.Text.IndexOf("http") >= 0) url = seartchWord.Text;
-            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult();
+            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult(false);
             webView.Source = url;
             refreshList();
         }
         private async void saveUrl(object sender, EventArgs e)
         {
-            await solvedResult();
+            await solvedResult(true);
         }
-        async Task<bool> solvedResult()
+        async Task<bool> solvedResult(bool result)
         {
-            var result = await DisplayAlert("Did the search word \"" + lastProblems.SearchWord + "\" resolve on the last searched page?", "", "Yes", "No");
+            if (result == false)
+                result = await DisplayAlert("Did the search word \"" + lastProblems.SearchWord + "\" resolve on the last searched page?", "", "Yes", "No");
             if (result == true)
             {
                 var sameUrl = await firebaseHelper.GetProblem(lastProblems.Url);
@@ -207,7 +208,7 @@ namespace MauiApp1
         }
         private async void closeClick(object sender, EventArgs e)
         {
-            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult();
+            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult(false);
             //DependencyService.Get<IDeviceService>().Exit();
         }
 
