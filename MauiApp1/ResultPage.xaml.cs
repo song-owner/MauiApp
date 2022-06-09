@@ -84,8 +84,21 @@ namespace MauiApp1
                 int count = 0;
                 foreach (var tmp in sameWordLast)
                 {
-                    var problems2 = allProblems.
-                        Where(a => a.SearchWord != null && a.SearchWord.IndexOf(tmp) >= 0).ToList();
+                    var problems2 = new List<Problems>();
+                    foreach (var allprob in allProblems)
+                    {
+                        if (allprob.SearchWord == null) continue;
+                        var allprbSplit = allprob.SearchWord.Split();
+                        foreach(var allprobSplited in allprbSplit)
+                        {
+                            if(allprobSplited == tmp)
+                            {
+                                problems2.Add(allprob);
+                            }
+                        }
+                    }
+                    //var problems2 = allProblems.
+                    //    Where(a => a.SearchWord != null && a.SearchWord.IndexOf(tmp) >= 0).ToList();
                     if (count == 0) problemList = problems2; else problemList.InsertRange(problemList.Count, problems2);
                     if (count == 7) break;
                     count++;
