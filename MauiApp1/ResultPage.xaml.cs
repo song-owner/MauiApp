@@ -64,19 +64,22 @@ namespace MauiApp1
                 }
                 //検索文字列に複数ワード
                 int splitNo = 1;
+                int num = 0;
                 foreach (string seartchs in seartchWord.Text.Split())
                 {
                     sameWord = seartchs.SortByDistance(problems).ToList();
                     sameWord = sameWord.Distinct().ToList();
-                    int num = 0;
+                    //類似文字列を入れる
                     foreach (string result in sameWord)
                     {
-                        if (sameWordLast.Count <= num) sameWordLast.Add(result);
-                        else sameWordLast.Insert(num, result);
+                        //if (sameWordLast.Count <= num) sameWordLast.Add(result);
+                        //else
+                        sameWordLast.Insert(num, result);
                         num += splitNo;
                     }
+                    num = splitNo;
                     splitNo++;
-                    //sameWord.AddRange(seartchs.SortByDistance(problems).ToList());
+                     //sameWord.AddRange(seartchs.SortByDistance(problems).ToList());
                     //sameWord = sameWord.Distinct().ToList();
                 }
                 //sameWord = seartchWord.Text.SortByDistance(problems).ToList();

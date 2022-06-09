@@ -8,18 +8,23 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MauiApp1/ResultPage2.xaml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MauiApp1/ResultPage.xaml.cs">
     <Files>
-      <File FileName="MauiApp1/ResultPage.xaml.cs" Line="7" Column="33" />
-      <File FileName="ResultPage2.xaml" Line="1" Column="1" />
+      <File FileName="MauiApp1/FirebaseHelper.cs" Line="38" Column="1" />
+      <File FileName="MauiApp1/ResultPage.xaml" Line="21" Column="106" />
+      <File FileName="MauiApp1/ResultPage.xaml.cs" Line="102" Column="1" />
+      <File FileName="MauiApp1/ResultPage2.xaml.cs" Line="122" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MauiApp1" expanded="True">
-            <Node name="Solution Items" expanded="True" />
             <Node name="MauiApp1" expanded="True">
-              <Node name="MainPage.xaml" expanded="True" />
+              <Node name="Dependencies" expanded="True" />
+              <Node name="ResultPage.xaml" expanded="True">
+                <Node name="ResultPage.xaml.cs" selected="True" />
+              </Node>
+              <Node name="ResultPage2.xaml" expanded="True" />
             </Node>
           </Node>
         </State>
