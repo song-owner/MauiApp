@@ -157,6 +157,9 @@ namespace MauiApp1
                 result = await DisplayAlert("Did the search word \"" + lastProblems.SearchWord + "\" resolve on the last searched page?", "", "Yes", "No");
             if (result == true)
             {
+                var title = await AsyncWork2(lastProblems.Url);
+                lastProblems.HtmlTitle = title;
+
                 var sameUrl = await firebaseHelper.GetProblem(lastProblems.Url);
                 if (sameUrl == null)
                 {
@@ -180,8 +183,8 @@ namespace MauiApp1
         {
             var url = e.Url;
             //testUrl.Text = url;
-            var title = await AsyncWork2(url);
-            lastProblems.HtmlTitle = title;
+            //var title = await AsyncWork2(url);
+            //lastProblems.HtmlTitle = title;
             lastProblems.Url = url;
         }
         private void resultPageChange(object sender, PropertyChangedEventArgs e)
