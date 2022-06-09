@@ -153,8 +153,8 @@ namespace MauiApp1
         }
         async Task<bool> solvedResult(bool result)
         {
-            if (result == false)
-                result = await DisplayAlert("Did the search word \"" + lastProblems.SearchWord + "\" resolve on the last searched page?", "", "Yes", "No");
+            //if (result == false)
+            //    result = await DisplayAlert("Did the search word \"" + lastProblems.SearchWord + "\" resolve on the last searched page?", "", "Yes", "No");
             if (result == true)
             {
                 var title = await AsyncWork2(lastProblems.Url);
