@@ -235,5 +235,12 @@ namespace MauiApp1
         {
             if (webView.CanGoBack) webView.GoBack();
         }
+
+        void enterEvent(System.Object sender, System.EventArgs e)
+        {
+            object a=null;
+            EventArgs b=null;
+            startSearch(a,b);
+        }
     }
 }
