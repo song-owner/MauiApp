@@ -41,7 +41,7 @@ public partial class ResultPage2 : ContentPage
         var sameWord = new List<string>();
         if (seartchWord.Text != "" && seartchWord.Text != null && allProblems.Count > 0)
         {
-            var problems = new List<testClass>();
+            var problems = new List<string>();
             //foreach (var tmp in allProblems) problems.Add(tmp.SearchWord);
             sameWord = seartchWord.Text.SortByDistance(problems).ToList();
             sameWord = sameWord.Distinct().ToList();

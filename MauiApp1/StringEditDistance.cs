@@ -3,18 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace MauiApp1
 {
-    public class testClass
-    {
-        public string abcd;
-        public int num;
-    }
     public static class StringEditDistance
     {
         /// <summary>候補文字列配列を与えられた文字列の編集距離が近い順にソートします</summary>
         /// <param name="org">基準となる文字列</param>
         /// <param name="array">候補文字列の配列</param>
         /// <returns>候補文字列の結果シーケンス</returns>
-        public static IEnumerable<string> SortByDistance(this string org, List<testClass> array)
+        public static IEnumerable<string> SortByDistance(this string org, List<string> array)
         {
             if (array == null)
                 throw new ArgumentNullException("array");
@@ -27,7 +22,7 @@ namespace MauiApp1
                                                               //.Sum( r => Math.Max( r.OriginalLength, r.ModifiedLength ) ); // 置換を含む(精度は悪くなる)
 
             var q = from s in array
-                    select new { Word = s.abcd, Length = func(s.abcd) } into e
+                    select new { Word = s, Length = func(s) } into e
                     orderby e.Length
                     select e.Word;
 

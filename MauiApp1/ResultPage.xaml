@@ -37,10 +37,25 @@
                 <ColumnDefinition Width="*" x:Name="GooglePage"/>
             </Grid.ColumnDefinitions>
             <StackLayout Grid.Column="0" Background="yellow" Margin="3,0,0,0">
-                <StackLayout HeightRequest="30">
-                    <Label Text="Seartch result" FontSize="Small" 
-                           TextColor="Gray" HorizontalTextAlignment="Center" LineBreakMode="NoWrap"
-                       />
+                <StackLayout HeightRequest="50">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                            <ColumnDefinition Width="2"/>
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Column="0" Orientation="Vertical">
+                            <Label Text="Search word"/>
+                            <Entry HeightRequest="25" x:Name="serchSub" Completed="serchSubEvent"/>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Orientation="Vertical">
+                            <Label Text="Title"/>
+                            <Entry HeightRequest="25" x:Name="titleSub" Completed="titleSubEvent"/>
+                        </StackLayout>
+                        <Label Grid.Column="3" Text="nice"/>
+                    </Grid>
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="appTapped"/>
                     </StackLayout.GestureRecognizers>
@@ -54,19 +69,6 @@
                             <Setter Property="LineBreakMode" Value="NoWrap"/>
                         </Style>
                     </ListView.Resources>
-                    <ListView.Header>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="0.5*"/>
-                                <ColumnDefinition Width="0.2*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Text="Search word"/>
-                            <Label Grid.Column="1" Text="Title"/>
-                            <Label Grid.Column="2" Text="Url"/>
-                        </Grid>
-                    </ListView.Header>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -108,9 +110,10 @@
                     <Label Text="Google  seatch result"
                            FontSize="Small" TextColor="Gray" HorizontalTextAlignment="Center"
                            LineBreakMode="NoWrap"/>
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="googleTapped"/>
-                </StackLayout.GestureRecognizers>                </StackLayout>
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="googleTapped"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
                 <StackLayout x:Name="browser" VerticalOptions="FillAndExpand"/>
             </StackLayout>
         </Grid>

@@ -43,29 +43,75 @@ namespace MauiApp1
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            refreshList();
+            refreshList(seartchWord.Text);
         }
-        async void refreshList()
+        string distWord(int sel, Problems word)
+        {
+            int first = 0;
+            int state = 0;
+            int lastState = 0;
+            string pack = "";
+            string distWord = "";
+            if (sel == 0) distWord = word.SearchWord;
+            if (sel == 1)
+            {
+                foreach (var abc in word.HtmlTitle)
+                {
+                    //カタカナ
+                    if (('ァ' <= abc && abc <= 'ﾝ') && !('亜' <= abc && abc <= '話'))
+                    { state = 0; }
+                    //ひらがな
+                    if ('ぁ' <= abc && abc <= 'ん')
+                    { state = 1; }
+                    //漢字
+                    if ('亜' <= abc && abc <= '話')
+                    { state = 2; }
+                    //アルファベット
+                    if (('a' <= abc && abc <= 'z') || ('A' <= abc && abc <= 'Z'))
+                    { state = 3; }
+                    if (first != 0 && state != lastState)
+                        pack = pack + " ";
+                    pack = pack + abc;
+                    lastState = state;
+                    first++;
+                }
+                distWord = pack;
+            }
+            return distWord;
+        }
+        async void refreshList(string seartchWord, int sel = 0)
         {
             var allProblems = await firebaseHelper.GetAllProblems();
             if (allProblems == null) return;
             var sameWord = new List<string>();
             var sameWordLast = new List<string>();
-            if (seartchWord.Text != "" && seartchWord.Text != null && allProblems.Count > 0)
+            if (seartchWord != "" && seartchWord != null && allProblems.Count > 0)
             {
                 //問題リストに複数ワード
-                var problems = new List<testClass>();
+                var problems = new List<string>();
                 int number = 0;
                 foreach (var tmp in allProblems)
                 {
-                    if (tmp.SearchWord == null) continue;
-                    problems.Add(new testClass() { abcd = tmp.SearchWord.Split()[0], num = number });
+                    if (distWord(sel, tmp) == null) continue;
+                    problems.Add(distWord(sel, tmp).Split()[0]);
+                    int splitCount = 0;
+                    try
+                    {
+                        while (true)
+                        {
+                            //問題リストが分解された
+                            problems.Add(distWord(sel, tmp).Split()[splitCount]);
+                            splitCount++;
+                        }
+                    }
+                    catch { }
                     number++;
                 }
+                problems = problems.Distinct().ToList();
                 //検索文字列に複数ワード
                 int splitNo = 1;
                 int num = 0;
-                foreach (string seartchs in seartchWord.Text.Split())
+                foreach (string seartchs in seartchWord.Split())
                 {
                     sameWord = seartchs.SortByDistance(problems).ToList();
                     sameWord = sameWord.Distinct().ToList();
@@ -79,30 +125,42 @@ namespace MauiApp1
                     }
                     num = splitNo;
                     splitNo++;
-                     //sameWord.AddRange(seartchs.SortByDistance(problems).ToList());
+                    //sameWord.AddRange(seartchs.SortByDistance(problems).ToList());
                     //sameWord = sameWord.Distinct().ToList();
                 }
                 //sameWord = seartchWord.Text.SortByDistance(problems).ToList();
+                //問題リストから探したい文字列が候補順に並ぶ
                 sameWordLast = sameWordLast.Distinct().ToList();
                 int count = 0;
+                problemList.Clear();
+                //候補の先頭から順に探す
                 foreach (var tmp in sameWordLast)
                 {
-                    var problems2 = new List<Problems>();
+                    if (tmp == "") continue;
+                    var maching = new List<Problems>();
+                    //問題リストから順に候補に一致するものを探す
                     foreach (var allprob in allProblems)
                     {
-                        if (allprob.SearchWord == null) continue;
-                        var allprbSplit = allprob.SearchWord.Split();
-                        foreach(var allprobSplited in allprbSplit)
+                        //すでに候補と一致した問題リストは排除
+                        bool letContinue = false;
+                        foreach (Problems pro in problemList)
+                            if (allprob.Url == pro.Url)
+                                letContinue = true;
+                        if (letContinue == true) continue;
+                        if (distWord(sel, allprob) == null) continue;
+                        //スペースで分解して検索
+                        var allprbSplit = distWord(sel, allprob).Split();
+                        foreach (var allprobSplited in allprbSplit)
                         {
-                            if(allprobSplited == tmp)
+                            if (allprobSplited == tmp)
                             {
-                                problems2.Add(allprob);
+                                maching.Add(allprob);
                             }
                         }
                     }
                     //var problems2 = allProblems.
                     //    Where(a => a.SearchWord != null && a.SearchWord.IndexOf(tmp) >= 0).ToList();
-                    if (count == 0) problemList = problems2; else problemList.InsertRange(problemList.Count, problems2);
+                    if (count == 0) problemList = maching; else problemList.InsertRange(problemList.Count, maching);
                     if (count == 7) break;
                     count++;
                 }
@@ -153,15 +211,15 @@ namespace MauiApp1
             Button button = (Button)sender;
             string key = button.CommandParameter.ToString();
             await firebaseHelper.DeleteProblem(key);
-            refreshList();
+            refreshList(seartchWord.Text);
         }
         private async void startSearch(object sender, EventArgs e)
         {
             var url = "https://www.google.com/search?q=" + seartchWord.Text;
-            if (seartchWord.Text.IndexOf("http") >= 0) url = seartchWord.Text;
+            if (seartchWord.Text != null && seartchWord.Text.IndexOf("http") >= 0) url = seartchWord.Text;
             if (seartchWord.Text != lastProblems.SearchWord) await solvedResult(false);
             webView.Source = url;
-            refreshList();
+            refreshList(seartchWord.Text);
         }
         private async void saveUrl(object sender, EventArgs e)
         {
@@ -191,7 +249,7 @@ namespace MauiApp1
                     await firebaseHelper.UpdatePerson(sameUrl.Key, lastProblems.PhoneId, lastProblems.SearchWord, lastProblems.HtmlTitle, lastProblems.Url, nice.ToString());
                 }
             }
-            refreshList();
+            refreshList(seartchWord.Text);
             lastProblems.SearchWord = seartchWord.Text;
             return true;
         }
@@ -238,9 +296,19 @@ namespace MauiApp1
 
         void enterEvent(System.Object sender, System.EventArgs e)
         {
-            object a=null;
-            EventArgs b=null;
-            startSearch(a,b);
+            object a = null;
+            EventArgs b = null;
+            startSearch(a, b);
+        }
+
+        void serchSubEvent(System.Object sender, System.EventArgs e)
+        {
+            refreshList(serchSub.Text);
+        }
+
+        void titleSubEvent(System.Object sender, System.EventArgs e)
+        {
+            refreshList(titleSub.Text, 1);
         }
     }
 }

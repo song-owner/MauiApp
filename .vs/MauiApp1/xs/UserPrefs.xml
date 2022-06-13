@@ -1,19 +1,9 @@
 ﻿<Properties StartupConfiguration="{CF0B6BF3-20C2-4724-9924-32B6CCA3EC4E}|Default">
-  <MonoDevelop.Ide.ItemProperties.MauiApp1 PreferredExecutionTarget="MyAppleMacCatalystID" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/si/Desktop/MauiApp1/MauiApp1/ResultPage2.xaml.cs" relfile="MauiApp1/ResultPage2.xaml.cs" line="173" column="1" />
-    </BreakpointStore>
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MauiApp1/ResultPage.xaml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MauiApp1/ResultPage.xaml">
     <Files>
       <File FileName="MauiApp1/FirebaseHelper.cs" Line="38" Column="1" />
-      <File FileName="MauiApp1/ResultPage.xaml" Line="21" Column="106" />
-      <File FileName="MauiApp1/ResultPage.xaml.cs" Line="102" Column="1" />
-      <File FileName="MauiApp1/ResultPage2.xaml.cs" Line="122" Column="24" />
+      <File FileName="MauiApp1/ResultPage.xaml" Line="65" Column="18" />
+      <File FileName="MauiApp1/ResultPage.xaml.cs" Line="245" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,9 +11,7 @@
           <Node name="MauiApp1" expanded="True">
             <Node name="MauiApp1" expanded="True">
               <Node name="Dependencies" expanded="True" />
-              <Node name="ResultPage.xaml" expanded="True">
-                <Node name="ResultPage.xaml.cs" selected="True" />
-              </Node>
+              <Node name="ResultPage.xaml" expanded="True" />
               <Node name="ResultPage2.xaml" expanded="True" />
             </Node>
           </Node>
@@ -35,4 +23,13 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <Xamarin.Addins.Core.Project ActiveDebugTarget="MyAppleMacCatalystID" />
+  <MonoDevelop.Ide.ItemProperties.MauiApp1 PreferredExecutionTarget="MyAppleMacCatalystID" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/si/Desktop/MauiApp1/MauiApp1/ResultPage2.xaml.cs" relfile="MauiApp1/ResultPage2.xaml.cs" line="173" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
