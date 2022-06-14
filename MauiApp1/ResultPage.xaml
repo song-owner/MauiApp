@@ -72,7 +72,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Vertical" BackgroundColor="WhiteSmoke" Margin="3">
+                                    <StackLayout Orientation="Vertical" BackgroundColor="{Binding ListColor}" Margin="3">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>

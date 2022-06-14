@@ -13,6 +13,7 @@ namespace MauiApp1
 {
     public partial class ResultPage : ContentPage
     {
+        Boolean wait = false;
         double sliderValue = 0.5;
         List<Problems> problemList = new List<Problems>();
         FirebaseHelper firebaseHelper = new FirebaseHelper();
@@ -81,6 +82,7 @@ namespace MauiApp1
         }
         async void refreshList(string seartchWord, int sel = 0)
         {
+            wait = true;
             var allProblems = await firebaseHelper.GetAllProblems();
             if (allProblems == null) return;
             var sameWord = new List<string>();
@@ -185,7 +187,9 @@ namespace MauiApp1
                 }
             }
             //problemList.Sort((a, b) => int.Parse(b.Nice) - int.Parse(a.Nice));
+            //foreach (var abc in problemList) { abc.ListColor = Colors.Red; }
             problemListView.ItemsSource = problemList;
+            wait = false;
         }
         private async void itemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -205,6 +209,22 @@ namespace MauiApp1
             webView.Source = now.Url;
             lastProblems.SearchWord = now.SearchWord;
             lastItemTappedUrl = now.Url;
+
+            Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
+            {
+                if (wait == false)
+                {
+                    foreach (var abc in problemList)
+                        if (now.Url == abc.Url)
+                            abc.ListColor = Colors.Yellow;
+                        else
+                            abc.ListColor = Colors.WhiteSmoke;
+                    problemListView.ItemsSource = null;
+                    problemListView.ItemsSource = problemList;
+                    return false;
+                }
+                return true;
+            });
         }
         private async void deleteTaped(object sender, EventArgs e)
         {
