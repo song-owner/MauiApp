@@ -36,8 +36,8 @@
                 <ColumnDefinition Width="*" x:Name="AppPge"/>
                 <ColumnDefinition Width="*" x:Name="GooglePage"/>
             </Grid.ColumnDefinitions>
-            <StackLayout Grid.Column="0" Background="yellow" Margin="3,0,0,0">
-                <StackLayout HeightRequest="50">
+            <StackLayout Grid.Column="0" Background="yellow" Margin="0,0,0,0">
+                <StackLayout HeightRequest="50" Margin="3,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -48,11 +48,11 @@
                         </Grid.ColumnDefinitions>
                         <StackLayout Grid.Column="0" Orientation="Vertical">
                             <Label Text="Search word"/>
-                            <Entry HeightRequest="25" x:Name="serchSub" Completed="serchSubEvent"/>
+                            <Entry HeightRequest="25" x:Name="serchSub" Completed="serchSubEvent" Background="whitesmoke"/>
                         </StackLayout>
                         <StackLayout Grid.Column="1" Orientation="Vertical">
                             <Label Text="Title"/>
-                            <Entry HeightRequest="25" x:Name="titleSub" Completed="titleSubEvent"/>
+                            <Entry HeightRequest="25" x:Name="titleSub" Completed="titleSubEvent" Background="whitesmoke"/>
                         </StackLayout>
                         <Label Grid.Column="3" Text="nice"/>
                     </Grid>
