@@ -54,10 +54,12 @@ namespace MauiApp1
             string pack = "";
             string distWord = "";
             if (sel == 0) distWord = word.SearchWord;
-            if (sel == 1)
+            if (sel == 1 && word.HtmlTitle !=null)
             {
                 foreach (var abc in word.HtmlTitle)
                 {
+                    if(word.HtmlTitle.IndexOf("削除") >= 0)
+                    { }
                     //カタカナ
                     if (('ァ' <= abc && abc <= 'ﾝ') && !('亜' <= abc && abc <= '話'))
                     { state = 0; }
@@ -91,23 +93,15 @@ namespace MauiApp1
             {
                 //問題リストに複数ワード
                 var problems = new List<string>();
-                int number = 0;
                 foreach (var tmp in allProblems)
                 {
-                    if (distWord(sel, tmp) == null) continue;
-                    problems.Add(distWord(sel, tmp).Split()[0]);
                     int splitCount = 0;
-                    try
+                    foreach (var dist in distWord(sel,tmp).Split())
                     {
-                        while (true)
-                        {
-                            //問題リストが分解された
-                            problems.Add(distWord(sel, tmp).Split()[splitCount]);
-                            splitCount++;
-                        }
+                        //問題リストが分解された
+                        problems.Add(distWord(sel, tmp).Split()[splitCount]);
+                        splitCount++;
                     }
-                    catch { }
-                    number++;
                 }
                 problems = problems.Distinct().ToList();
                 //検索文字列に複数ワード
@@ -149,7 +143,6 @@ namespace MauiApp1
                             if (allprob.Url == pro.Url)
                                 letContinue = true;
                         if (letContinue == true) continue;
-                        if (distWord(sel, allprob) == null) continue;
                         //スペースで分解して検索
                         var allprbSplit = distWord(sel, allprob).Split();
                         foreach (var allprobSplited in allprbSplit)
