@@ -13,7 +13,7 @@ namespace MauiApp1
 {
     public partial class ResultPage : ContentPage
     {
-        Boolean wait = false;
+        string colloredLineUrl = "";
         double sliderValue = 0.5;
         List<Problems> problemList = new List<Problems>();
         FirebaseHelper firebaseHelper = new FirebaseHelper();
@@ -54,11 +54,11 @@ namespace MauiApp1
             string pack = "";
             string distWord = "";
             if (sel == 0) distWord = word.SearchWord;
-            if (sel == 1 && word.HtmlTitle !=null)
+            if (sel == 1 && word.HtmlTitle != null)
             {
                 foreach (var abc in word.HtmlTitle)
                 {
-                    if(word.HtmlTitle.IndexOf("削除") >= 0)
+                    if (word.HtmlTitle.IndexOf("削除") >= 0)
                     { }
                     //カタカナ
                     if (('ァ' <= abc && abc <= 'ﾝ') && !('亜' <= abc && abc <= '話'))
@@ -84,7 +84,6 @@ namespace MauiApp1
         }
         async void refreshList(string seartchWord, int sel = 0)
         {
-            wait = true;
             var allProblems = await firebaseHelper.GetAllProblems();
             if (allProblems == null) return;
             var sameWord = new List<string>();
@@ -96,7 +95,7 @@ namespace MauiApp1
                 foreach (var tmp in allProblems)
                 {
                     int splitCount = 0;
-                    foreach (var dist in distWord(sel,tmp).Split())
+                    foreach (var dist in distWord(sel, tmp).Split())
                     {
                         //問題リストが分解された
                         problems.Add(distWord(sel, tmp).Split()[splitCount]);
@@ -181,8 +180,13 @@ namespace MauiApp1
             }
             //problemList.Sort((a, b) => int.Parse(b.Nice) - int.Parse(a.Nice));
             //foreach (var abc in problemList) { abc.ListColor = Colors.Red; }
+            foreach (var abc in problemList)
+                if (colloredLineUrl == abc.Url)
+                    abc.ListColor = Colors.Yellow;
+                else
+                    abc.ListColor = Colors.WhiteSmoke;
+            //problemListView.ItemsSource = null;
             problemListView.ItemsSource = problemList;
-            wait = false;
         }
         private async void itemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -196,28 +200,14 @@ namespace MauiApp1
             {
                 return;
             }
+            colloredLineUrl = now.Url;
             seartchWord.Text = now.SearchWord;
-            if (lastProblems.SearchWord != now.SearchWord/* || lastItemTappedUrl != lastProblems.Url*/)
-                await solvedResult(false);
+            refreshList(seartchWord.Text);
             webView.Source = now.Url;
             lastProblems.SearchWord = now.SearchWord;
             lastItemTappedUrl = now.Url;
 
-            Device.StartTimer(TimeSpan.FromSeconds(0.2), () =>
-            {
-                if (wait == false)
-                {
-                    foreach (var abc in problemList)
-                        if (now.Url == abc.Url)
-                            abc.ListColor = Colors.Yellow;
-                        else
-                            abc.ListColor = Colors.WhiteSmoke;
-                    problemListView.ItemsSource = null;
-                    problemListView.ItemsSource = problemList;
-                    return false;
-                }
-                return true;
-            });
+            //lineCollorChange(now.Url);
         }
         private async void deleteTaped(object sender, EventArgs e)
         {
@@ -230,13 +220,15 @@ namespace MauiApp1
         {
             var url = "https://www.google.com/search?q=" + seartchWord.Text;
             if (seartchWord.Text != null && seartchWord.Text.IndexOf("http") >= 0) url = seartchWord.Text;
-            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult(false);
             webView.Source = url;
             refreshList(seartchWord.Text);
+            lastProblems.SearchWord = seartchWord.Text;
         }
         private async void saveUrl(object sender, EventArgs e)
         {
             await solvedResult(true);
+            colloredLineUrl = lastProblems.Url;
+            //lineCollorChange(lastProblems.Url);
         }
         async Task<bool> solvedResult(bool result)
         {
@@ -298,7 +290,6 @@ namespace MauiApp1
         }
         private async void closeClick(object sender, EventArgs e)
         {
-            if (seartchWord.Text != lastProblems.SearchWord) await solvedResult(false);
             //DependencyService.Get<IDeviceService>().Exit();
         }
 
